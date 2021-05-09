@@ -4,7 +4,7 @@ RUN		apk update
 
 RUN		apk upgrade
 
-RUN		apk add vsftpd openssl
+RUN		apk add vsftpd openssl supervisor
 
 RUN		echo "root:qwerty" | chpasswd
 
@@ -12,6 +12,8 @@ RUN		openssl req -x509 -nodes -days 365 -subj "/C=RU/ST=Tatarstan/L=Kazan/O=21sc
 
 COPY	./vsftpd.conf /etc/vsftpd/
 
+COPY	./supervisord.conf /etc/supervisord.conf
+
 EXPOSE  21 30021
 
-ENTRYPOINT	vsftpd /etc/vsftpd/vsftpd.conf
+ENTRYPOINT	/usr/bin/supervisord -c /etc/supervisord.conf
